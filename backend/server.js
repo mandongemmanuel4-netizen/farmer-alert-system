@@ -24,6 +24,7 @@ app.use('/api/contacts', require('./routes/emergencyContactRoutes'));
 app.use('/api/checkins', require('./routes/checkInRoutes'));
 app.use('/api/coordinator', require('./routes/coordinatorRoutes'));
 app.use('/api/ussd', require('./routes/ussdRoutes'));
+app.use('/api/admin', require('./routes/adminRoutes'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
