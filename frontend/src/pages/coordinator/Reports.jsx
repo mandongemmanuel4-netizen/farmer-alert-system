@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
 import CsoBottomNav from '../../components/coordinator/CsoBottomNav';
+import CsoSidebar from '../../components/coordinator/CsoSidebar';
 
 export default function Reports() {
   const [dashboard, setDashboard] = useState(null);
@@ -16,12 +17,13 @@ export default function Reports() {
   const resolvedCount = alerts.filter((a) => a.status === 'resolved').length;
 
   return (
-    <div className="min-h-screen bg-official-light/10 pb-24">
+    <div className="min-h-screen bg-official-light/10 pb-24 md:ml-64">
+      <CsoSidebar />
       <div className="bg-white px-6 py-4 border-b border-gray-100">
         <h1 className="text-lg font-bold text-gray-900">Reports</h1>
       </div>
 
-      <div className="px-6 py-4 space-y-4">
+      <div className="px-6 py-4 space-y-4 md:max-w-2xl md:mx-auto">
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-white rounded-xl shadow-sm p-4">
             <p className="text-2xl font-bold text-official">{dashboard?.activeFarmers ?? '...'}</p>

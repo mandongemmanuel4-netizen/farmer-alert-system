@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import api from '../../services/api';
 import MapPicker from '../../components/common/MapPicker';
+import FarmerSidebar from '../../components/farmer/FarmerSidebar';
 
 export default function AddFarm() {
   const navigate = useNavigate();
@@ -66,7 +67,9 @@ export default function AddFarm() {
   };
 
   return (
-    <div className="min-h-screen bg-farmer-light/20 px-6 py-4">
+    <div className="min-h-screen bg-farmer-light/20 px-6 py-4 md:ml-64">
+      <FarmerSidebar />
+      <div className="md:max-w-lg md:mx-auto">
       <div className="flex items-center gap-3 mb-6">
         <button onClick={() => navigate('/farmer/farms')} className="text-gray-500">&larr;</button>
         <h1 className="text-lg font-bold text-gray-900">{editId ? 'Edit Farm' : 'Add New Farm'}</h1>
@@ -144,6 +147,7 @@ export default function AddFarm() {
           {saving ? 'Saving...' : 'Save Farm'}
         </button>
       </form>
+      </div>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import CsoBottomNav from '../../components/coordinator/CsoBottomNav';
+import CsoSidebar from '../../components/coordinator/CsoSidebar';
 
 const statusStyles = {
   'checked-in': { label: 'On Time', bg: 'bg-farmer-light', text: 'text-farmer-dark' },
@@ -34,8 +35,9 @@ export default function ActiveFarmers() {
   });
 
   return (
-    <div className="min-h-screen bg-official-light/10 pb-24">
-      <div className="bg-white px-6 py-4 border-b border-gray-100 sticky top-0 z-10">
+    <div className="min-h-screen bg-official-light/10 pb-24 md:ml-64">
+      <CsoSidebar />
+      <div className="bg-white px-6 py-4 border-b border-gray-100 sticky top-0 z-10 md:static">
         <h1 className="text-lg font-bold text-gray-900 mb-3">Active Farmers</h1>
         <input
           type="text"
@@ -61,7 +63,7 @@ export default function ActiveFarmers() {
         </div>
       </div>
 
-      <div className="px-6 py-4 space-y-3">
+      <div className="px-6 py-4 space-y-3 md:max-w-3xl md:mx-auto">
         {loading ? (
           <p className="text-gray-400 text-sm">Loading...</p>
         ) : filtered.length === 0 ? (

@@ -31,9 +31,13 @@ async function sendOneSms(phone, message) {
       channel: 'generic',
       api_key: process.env.TERMII_API_KEY,
     });
-    if (res.data && !res.data.message) {
+    // Termii's real success response looks like:
+    // { code: "ok", message_id: "...", message: "Successfully Sent", balance: N, user: "..." }
+    // A message_id being present is the most reliable success signal.
+    if (res.data && (res.data.code === 'ok' || res.data.message_id)) {
       return 'sent';
     }
+    console.error(`SMS to ${phone} returned unexpected response:`, res.data);
     return 'failed';
   } catch (err) {
     console.error(`SMS to ${phone} failed:`, err.response?.data || err.message);

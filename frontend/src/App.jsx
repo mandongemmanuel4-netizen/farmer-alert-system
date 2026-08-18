@@ -38,7 +38,6 @@ import CSOsList from './pages/admin/CSOsList';
 import StatesManagement from './pages/admin/StatesManagement';
 import LGAsManagement from './pages/admin/LGAsManagement';
 import WardsManagement from './pages/admin/WardsManagement';
-import VillagesManagement from './pages/admin/VillagesManagement';
 import SecurityPosts from './pages/admin/SecurityPosts';
 import ReportsAnalytics from './pages/admin/ReportsAnalytics';
 import ActivityLogs from './pages/admin/ActivityLogs';
@@ -83,7 +82,6 @@ export default function App() {
       <Route path="/admin/states" element={<ProtectedRoute allowedRoles={['admin']}><StatesManagement /></ProtectedRoute>} />
       <Route path="/admin/lgas" element={<ProtectedRoute allowedRoles={['admin']}><LGAsManagement /></ProtectedRoute>} />
       <Route path="/admin/wards" element={<ProtectedRoute allowedRoles={['admin']}><WardsManagement /></ProtectedRoute>} />
-      <Route path="/admin/villages" element={<ProtectedRoute allowedRoles={['admin']}><VillagesManagement /></ProtectedRoute>} />
       <Route path="/admin/security-posts" element={<ProtectedRoute allowedRoles={['admin']}><SecurityPosts /></ProtectedRoute>} />
       <Route path="/admin/reports" element={<ProtectedRoute allowedRoles={['admin']}><ReportsAnalytics /></ProtectedRoute>} />
       <Route path="/admin/logs" element={<ProtectedRoute allowedRoles={['admin']}><ActivityLogs /></ProtectedRoute>} />

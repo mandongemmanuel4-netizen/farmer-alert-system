@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
+import FarmerSidebar from '../../components/farmer/FarmerSidebar';
 
 const DURATIONS = [
   { hours: 1, label: 'Quick trip', sub: '1 hour' },
@@ -69,7 +70,8 @@ export default function CheckIn() {
   };
 
   return (
-    <div className="min-h-screen bg-farmer-light/20 px-6 py-4">
+    <div className="min-h-screen bg-farmer-light/20 px-6 py-4 md:ml-64">
+      <FarmerSidebar />
       <style>{`
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
         .anim-1 { animation: fadeInUp 0.5s ease-out 0.05s both; }

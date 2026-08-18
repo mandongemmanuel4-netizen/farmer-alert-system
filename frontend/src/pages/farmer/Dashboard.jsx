@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import FarmerBottomNav from '../../components/farmer/FarmerBottomNav';
+import FarmerSidebar from '../../components/farmer/FarmerSidebar';
 import api from '../../services/api';
 
 export default function Dashboard() {
@@ -63,13 +64,14 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-farmer-light/20 pb-24">
+    <div className="min-h-screen bg-farmer-light/20 pb-24 md:ml-64">
+      <FarmerSidebar />
       <div className="bg-farmer text-white px-6 pt-8 pb-6 rounded-b-3xl">
         <p className="text-sm text-white/80">Good day,</p>
         <h1 className="text-xl font-bold">{user?.fullName || 'Farmer'} 👋</h1>
       </div>
 
-      <div className="px-6 mt-5">
+      <div className="px-6 mt-5 md:max-w-4xl md:mx-auto md:pt-8">
         {/* Active session summary (only shown when checked in) */}
         {isCheckedIn && (
           <div className="bg-white rounded-xl shadow-sm p-4 mb-4">

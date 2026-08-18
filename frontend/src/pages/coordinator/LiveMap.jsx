@@ -4,6 +4,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import api from '../../services/api';
 import CsoBottomNav from '../../components/coordinator/CsoBottomNav';
+import CsoSidebar from '../../components/coordinator/CsoSidebar';
 
 const icons = {
   'checked-in': new L.Icon({ iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png', iconSize: [20, 33], className: 'hue-rotate-90' }),
@@ -28,7 +29,8 @@ export default function LiveMap() {
   const withGps = data.farmers.filter((f) => f.gps?.lat);
 
   return (
-    <div className="min-h-screen bg-official-light/10 pb-24">
+    <div className="min-h-screen bg-official-light/10 pb-24 md:ml-64">
+      <CsoSidebar />
       <div className="bg-white px-6 py-4 border-b border-gray-100">
         <h1 className="text-lg font-bold text-gray-900">Live Map</h1>
         <p className="text-xs text-gray-400">

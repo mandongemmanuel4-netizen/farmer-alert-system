@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import FarmerBottomNav from '../../components/farmer/FarmerBottomNav';
+import FarmerSidebar from '../../components/farmer/FarmerSidebar';
 
 export default function MyFarms() {
   const navigate = useNavigate();
@@ -22,7 +23,8 @@ export default function MyFarms() {
   };
 
   return (
-    <div className="min-h-screen bg-farmer-light/20 pb-24">
+    <div className="min-h-screen bg-farmer-light/20 pb-24 md:ml-64">
+      <FarmerSidebar />
       <div className="bg-white px-6 py-4 flex items-center justify-between border-b border-gray-100">
         <div className="flex items-center gap-3">
           <button onClick={() => navigate('/farmer')} className="text-gray-500">&larr;</button>
@@ -31,7 +33,7 @@ export default function MyFarms() {
         <Link to="/farmer/farms/add" className="text-farmer text-xl font-bold">+</Link>
       </div>
 
-      <div className="px-6 py-4">
+      <div className="px-6 py-4 md:max-w-2xl md:mx-auto">
         {loading ? (
           <p className="text-gray-400 text-sm">Loading...</p>
         ) : farms.length === 0 ? (

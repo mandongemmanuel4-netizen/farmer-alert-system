@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
+import CsoSidebar from '../../components/coordinator/CsoSidebar';
 
 export default function FarmerDetails() {
   const { id } = useParams();
@@ -16,7 +17,9 @@ export default function FarmerDetails() {
   const { farmer, activeSession, history } = data;
 
   return (
-    <div className="min-h-screen bg-official-light/10 px-6 py-4">
+    <div className="min-h-screen bg-official-light/10 px-6 py-4 md:ml-64">
+      <CsoSidebar />
+      <div className="md:max-w-2xl md:mx-auto">
       <div className="flex items-center gap-3 mb-4">
         <button onClick={() => navigate('/coordinator/farmers')} className="text-gray-500">&larr;</button>
         <h1 className="text-lg font-bold text-gray-900">Farmer Details</h1>
@@ -67,6 +70,7 @@ export default function FarmerDetails() {
             ))}
           </div>
         )}
+      </div>
       </div>
     </div>
   );

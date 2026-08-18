@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 import CsoBottomNav from '../../components/coordinator/CsoBottomNav';
+import CsoSidebar from '../../components/coordinator/CsoSidebar';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -13,13 +14,14 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-official-light/20 pb-24">
+    <div className="min-h-screen bg-official-light/20 pb-24 md:ml-64">
+      <CsoSidebar />
       <div className="bg-official text-white px-6 pt-8 pb-6 rounded-b-3xl">
         <p className="text-sm text-white/80">Good Morning,</p>
         <h1 className="text-xl font-bold">CSO {user?.fullName || ''}</h1>
       </div>
 
-      <div className="px-6 -mt-4">
+      <div className="px-6 -mt-4 md:max-w-4xl md:mx-auto md:pt-8">
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="bg-white rounded-xl shadow-sm p-4">
             <p className="text-2xl font-bold text-official">{data?.activeFarmers ?? '...'}</p>

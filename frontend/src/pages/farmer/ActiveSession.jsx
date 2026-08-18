@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
+import FarmerSidebar from '../../components/farmer/FarmerSidebar';
 
 function formatElapsed(start) {
   const diffMs = Date.now() - new Date(start).getTime();
@@ -87,7 +88,9 @@ export default function ActiveSession() {
   }
 
   return (
-    <div className="min-h-screen bg-farmer-light/20 px-6 py-4">
+    <div className="min-h-screen bg-farmer-light/20 px-6 py-4 md:ml-64">
+      <FarmerSidebar />
+      <div className="md:max-w-lg md:mx-auto">
       <div className="flex items-center gap-3 mb-6">
         <button onClick={() => navigate('/farmer')} className="text-gray-500">&larr;</button>
         <h1 className="text-lg font-bold text-gray-900">Active Session</h1>
@@ -147,6 +150,7 @@ export default function ActiveSession() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

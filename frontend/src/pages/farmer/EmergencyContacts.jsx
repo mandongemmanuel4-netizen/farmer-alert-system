@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import FarmerBottomNav from '../../components/farmer/FarmerBottomNav';
+import FarmerSidebar from '../../components/farmer/FarmerSidebar';
 
 const emptyContact = { name: '', phone: '', relationship: '' };
 
@@ -55,13 +56,14 @@ export default function EmergencyContacts() {
   }
 
   return (
-    <div className="min-h-screen bg-farmer-light/20 pb-24">
+    <div className="min-h-screen bg-farmer-light/20 pb-24 md:ml-64">
+      <FarmerSidebar />
       <div className="bg-white px-6 py-4 flex items-center gap-3 border-b border-gray-100">
         <button onClick={() => navigate('/farmer')} className="text-gray-500">&larr;</button>
         <h1 className="text-lg font-bold text-gray-900">Emergency Contacts</h1>
       </div>
 
-      <div className="px-6 py-4">
+      <div className="px-6 py-4 md:max-w-xl md:mx-auto">
         <div className="bg-farmer-light/50 text-farmer-dark text-sm rounded-lg p-3 mb-4 flex items-start gap-2">
           <span>ℹ️</span>
           <span>You must have exactly 3 emergency contacts.</span>
