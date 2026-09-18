@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import FarmerBottomNav from '../../components/farmer/FarmerBottomNav';
-import FarmerSidebar from '../../components/farmer/FarmerSidebar';
-import FarmerTopBar from '../../components/farmer/FarmerTopBar';
 import api from '../../services/api';
 
 export default function Dashboard() {
@@ -44,44 +42,35 @@ export default function Dashboard() {
   };
 
   const handlePanic = () => {
-    if (!navigator.geolocation) return alert('Location services are required to send a panic alert.');
     setBusy(true);
+    const send = (gps) => api.post('/checkins/panic', { gps })
+      .then(() => { setShowPanicConfirm(false); alert('🚨 Emergency alert sent. Your emergency contacts, coordinator, and nearest security post have been notified.'); loadAll(); })
+      .catch((err) => alert(err.response?.data?.message || 'Failed to send panic alert. Please try again.'))
+      .finally(() => setBusy(false));
+    if (!navigator.geolocation) return send(null);
     navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        try {
-          await api.post('/checkins/panic', { gps: { lat: pos.coords.latitude, lng: pos.coords.longitude } });
-          setShowPanicConfirm(false);
-          alert('🚨 Emergency alert sent. Your emergency contacts, coordinator, and nearest security post have been notified.');
-          loadAll();
-        } catch {
-          alert('Failed to send panic alert. Please try again.');
-        } finally {
-          setBusy(false);
-        }
-      },
-      () => { alert('Could not get your current location.'); setBusy(false); },
-      { enableHighAccuracy: true, timeout: 10000 }
+      (pos) => send({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      () => send(null),
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 30000 }
     );
   };
 
   return (
-    <div className="min-h-screen bg-farmer-light/20 dark:bg-gray-950 pb-24 md:ml-64">
-      <FarmerSidebar />
-      <FarmerTopBar title={`${user?.fullName || 'Farmer'} 👋`} subtitle="Good day," />
-      <div className="md:hidden bg-farmer text-white px-6 pt-8 pb-6 rounded-b-3xl">
+    <div className="min-h-screen bg-farmer-light/20 pb-24">
+      <div className="bg-farmer text-white px-6 pt-8 pb-6 rounded-b-3xl">
         <p className="text-sm text-white/80">Good day,</p>
         <h1 className="text-xl font-bold">{user?.fullName || 'Farmer'} 👋</h1>
       </div>
 
-      <div className="px-6 mt-5 md:max-w-4xl md:mx-auto md:pt-8">
+      <div className="px-6 mt-5">
         {/* Active session summary (only shown when checked in) */}
         {isCheckedIn && (
-          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-4 mb-4">
+          <div className="bg-white rounded-xl shadow-sm p-4 mb-4">
             <div className="flex items-center justify-between mb-1">
-              <span className="font-semibold text-gray-800 dark:text-gray-100">{activeSession.farm?.farmName || 'Active Session'}</span>
+              <span className="font-semibold text-gray-800">{activeSession.farm?.farmName || 'Active Session'}</span>
               <span className="text-xs bg-farmer-light text-farmer-dark px-2 py-1 rounded-full font-semibold">ACTIVE</span>
             </div>
-            <p className="text-xs text-gray-400 dark:text-gray-500">
+            <p className="text-xs text-gray-400">
               Checked in: {new Date(activeSession.checkInTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} ·
               {' '}Expected return: {new Date(activeSession.expectedReturnBy).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </p>
@@ -112,7 +101,7 @@ export default function Dashboard() {
           </button>
 
           <button
-            onClick={() => isCheckedIn ? setShowPanicConfirm(true) : alert('You need to be checked in to send a panic alert.')}
+            onClick={() => setShowPanicConfirm(true)}
             className="bg-alert-panic hover:bg-red-700 text-white rounded-2xl shadow-md py-5 flex flex-col items-center gap-2 transition active:scale-95"
           >
             <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -125,23 +114,23 @@ export default function Dashboard() {
         {/* Quick access grid */}
         <p className="text-sm font-semibold text-gray-500 mb-2">Quick Access</p>
         <div className="grid grid-cols-2 gap-3">
-          <Link to="/farmer/farms" className="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-4 flex flex-col gap-1">
+          <Link to="/farmer/farms" className="bg-white rounded-xl shadow-sm p-4 flex flex-col gap-1">
             <span className="text-2xl">🌾</span>
-            <span className="font-semibold text-gray-800 dark:text-gray-100">My Farms</span>
-            <span className="text-xs text-gray-400 dark:text-gray-500">{farmCount === null ? '...' : `${farmCount} registered`}</span>
+            <span className="font-semibold text-gray-800">My Farms</span>
+            <span className="text-xs text-gray-400">{farmCount === null ? '...' : `${farmCount} registered`}</span>
           </Link>
-          <Link to="/farmer/contacts" className="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-4 flex flex-col gap-1">
+          <Link to="/farmer/contacts" className="bg-white rounded-xl shadow-sm p-4 flex flex-col gap-1">
             <span className="text-2xl">📞</span>
-            <span className="font-semibold text-gray-800 dark:text-gray-100">Emergency Contacts</span>
-            <span className="text-xs text-gray-400 dark:text-gray-500">{contactCount === null ? '...' : `${contactCount} of 3 set`}</span>
+            <span className="font-semibold text-gray-800">Emergency Contacts</span>
+            <span className="text-xs text-gray-400">{contactCount === null ? '...' : `${contactCount} of 3 set`}</span>
           </Link>
-          <Link to="/farmer/history" className="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-4 flex flex-col gap-1">
+          <Link to="/farmer/history" className="bg-white rounded-xl shadow-sm p-4 flex flex-col gap-1">
             <span className="text-2xl">🕐</span>
-            <span className="font-semibold text-gray-800 dark:text-gray-100">History</span>
+            <span className="font-semibold text-gray-800">History</span>
           </Link>
-          <Link to="/farmer/profile" className="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-4 flex flex-col gap-1">
+          <Link to="/farmer/profile" className="bg-white rounded-xl shadow-sm p-4 flex flex-col gap-1">
             <span className="text-2xl">👤</span>
-            <span className="font-semibold text-gray-800 dark:text-gray-100">Profile</span>
+            <span className="font-semibold text-gray-800">Profile</span>
           </Link>
         </div>
 
